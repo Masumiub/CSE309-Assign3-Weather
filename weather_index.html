@@ -1,29 +1,243 @@
 ﻿<!doctype html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title>Weather Today</title>
 </head>
+
 <body>
-    <h1>Hello, weather!</h1>
-    <div class="weather-container">
-        <img class="icon" />
-        <p class="weather"></p>
-        <p class="temp"></p>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="weather_index.html">Bangladesh Weather</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <!-- <input class="form-control me-2" placeholder="Search Location" name="search" id="search">
+              <button class="btn btn-outline-success" onclick="searchweather()">Search</button> -->
+            </form>
+          </div>
+        </div>
+      </nav>
+
+
+
+
+    <div class="container">
+
+      <div class="p-5 mb-4 bg-light shadow bg-dark text-white">
+        <div class="container-fluid ">
+          <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+              <h1 class="display-5 fw-bold">Weather Update</h1>
+              <div style="background-color: aliceblue; border-radius: 15px; width: 47px;"><img id="wicon"/></div>
+              
+              <h1 class="temp display-1" id="temp"></h1>
+              <h3 class="weather" id="weather"></h3>
+              <h2 class="locationname" id="locationname"></h2>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+              <img src="weather-h.png" alt="" class="img-fluid" style="width: 400px;">
+              </div>
+
+          </div>
+        </div>
+      </div>
+
+      <script>
+        $.getJSON("https://api.openweathermap.org/data/2.5/weather?q=Dhaka&appid=e94ca0be26609f28422f7a878294760a&units=metric",
+            function (data) {
+                console.log(data);
+
+                var iconcode = data.weather[0].icon;
+                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                var temp = data.main.temp;
+                var weather = data.weather[0].main;
+                var location = data.name;
+
+                $('#wicon').attr('src', iconurl);
+                $(".weather").append(weather);
+                $(".temp").append(temp);
+                $(".locationname").append(location);
+            }
+        );
+    </script>
+
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-12">
+
+          <div style="display: flex; margin-bottom: 20px;">
+            <input class="form-control me-2" placeholder="Search Location" name="search" id="search">
+            <button class="btn btn-outline-success" onclick="searchweather()">Search</button>
+          </div>
+
+          <div style="display:space-around; margin-bottom: 10px;">
+            <img id="wicon2"/>
+            <h1 class="temp2 display-3"></h1>
+            <h3 class="weather2" ></h3>
+            <h2 class="locationname2" ></h2>
+          </div>
+
+          <script>
+            function searchweather(){
+            var place = document.getElementById("search").value;
+
+              $.getJSON(`https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=e94ca0be26609f28422f7a878294760a&units=metric`,
+                function (sdata) {
+    
+                    var iconcode = sdata.weather[0].icon;
+                    var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                    var temp = sdata.main.temp;
+                    var weather = sdata.weather[0].main;
+                    var location = sdata.name;
+    
+                    $('#wicon2').attr('src', iconurl);
+                    $(".weather2").append(weather);
+                    $(".temp2").append(temp);
+                    $(".locationname2").append(location);
+                }
+            );
+            }
+          </script>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-12 col-lg-4 col-md-4">
+
+          <div class="card shadow bg-primary text-white" style="border: 0px;">
+            <div class="card-body">
+              <img id="wiconB"/>
+              <h5 class="card-title locationB"></h5>
+              <h2 class="display-4 tempB"></h2>
+              <p class="weatherB"></p>
+            </div>
+          </div>
+
+        </div>
+        <script>
+          $.getJSON("https://api.openweathermap.org/data/2.5/weather?q=Barisal&appid=e94ca0be26609f28422f7a878294760a&units=metric",
+              function (data2) {
+                  //console.log(data2);
+  
+                  var iconcode = data2.weather[0].icon;
+                  var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                  var temp = data2.main.temp;
+                  var weather = data2.weather[0].main;
+                  var location = data2.name;
+  
+                  $('#wiconB').attr('src', iconurl);
+                  $(".weatherB").append(weather);
+                  $(".tempB").append(temp);
+                  $(".locationB").append(location);
+              }
+          );
+      </script>
+
+        <div class="col-sm-12 col-lg-4 col-md-4">
+
+          <div class="card shadow bg-success text-white" style="border: 0px;">
+            <div class="card-body">
+              <img id="wiconC"/>
+              <h5 class="card-title locationC"></h5>
+              <h2 class="display-4 tempC"></h2>
+              <p class="weatherC"></p>
+            </div>
+          </div>
+
+        </div>
+
+        <script>
+          $.getJSON("https://api.openweathermap.org/data/2.5/weather?q=Chittagong&appid=e94ca0be26609f28422f7a878294760a&units=metric",
+              function (data3) {
+                  //console.log(data3);
+  
+                  var iconcode = data3.weather[0].icon;
+                  var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                  var temp = data3.main.temp;
+                  var weather = data3.weather[0].main;
+                  var location = data3.name;
+  
+                  $('#wiconC').attr('src', iconurl);
+                  $(".weatherC").append(weather);
+                  $(".tempC").append(temp);
+                  $(".locationC").append(location);
+              }
+          );
+      </script>
+
+        <div class="col-sm-12 col-lg-4 col-md-4">
+
+          <div class="card shadow text-white" style="border: 0px; background-color: blueviolet;">
+            <div class="card-body">
+              <img id="wiconS"/>
+              <h5 class="card-title locationS"></h5>
+              <h2 class="display-4 tempS"></h2>
+              <p class="weatherS"></p>
+            </div>
+          </div>
+
+        </div>
+
+        
+        <script>
+          $.getJSON("https://api.openweathermap.org/data/2.5/weather?q=Sylhet&appid=e94ca0be26609f28422f7a878294760a&units=metric",
+              function (data4) {
+                  //console.log(data4);
+  
+                  var iconcode = data4.weather[0].icon;
+                  var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                  var temp = data4.main.temp;
+                  var weather = data4.weather[0].main;
+                  var location = data4.name;
+  
+                  $('#wiconS').attr('src', iconurl);
+                  $(".weatherS").append(weather);
+                  $(".tempS").append(temp);
+                  $(".locationS").append(location);
+              }
+          );
+      </script>
+
+      </div>
+
     </div>
-    <!-- Optional JavaScript; choose one of the two! -->
-    <script src="Script1.js"></script>
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<!-- ************************************* -->
+<!-- --------------Footer----------------- -->
+<!-- ************************************* -->
+<footer class="py-5 bg-dark" style="margin-top: 50px;">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; weatherbd - MasumMusfique2022</p>
+  </div>
+</footer>
+<!-- ************************************* -->
+<!-- --------------Footer----------------- -->
+<!-- ************************************* -->
 
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
